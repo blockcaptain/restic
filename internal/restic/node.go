@@ -578,7 +578,6 @@ func (node *Node) fillExtra(path string, fi os.FileInfo) error {
 	}
 
 	node.Inode = uint64(stat.ino())
-	node.DeviceID = uint64(stat.dev())
 
 	node.fillTimes(stat)
 
