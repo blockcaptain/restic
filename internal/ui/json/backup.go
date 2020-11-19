@@ -399,7 +399,8 @@ func (b *Backup) Finish(snapshotID restic.ID) {
 		TotalFilesProcessed: b.summary.Files.New + b.summary.Files.Changed + b.summary.Files.Unchanged,
 		TotalBytesProcessed: b.summary.ProcessedBytes,
 		TotalDuration:       time.Since(b.start).Seconds(),
-		SnapshotID:          snapshotID.Str(),
+		SnapshotID:          &snapshotID,
+		SnapshotShortID:     snapshotID.Str(),
 	})
 }
 
@@ -440,18 +441,19 @@ type verboseUpdate struct {
 }
 
 type summaryOutput struct {
-	MessageType         string  `json:"message_type"` // "summary"
-	FilesNew            uint    `json:"files_new"`
-	FilesChanged        uint    `json:"files_changed"`
-	FilesUnmodified     uint    `json:"files_unmodified"`
-	DirsNew             uint    `json:"dirs_new"`
-	DirsChanged         uint    `json:"dirs_changed"`
-	DirsUnmodified      uint    `json:"dirs_unmodified"`
-	DataBlobs           int     `json:"data_blobs"`
-	TreeBlobs           int     `json:"tree_blobs"`
-	DataAdded           uint64  `json:"data_added"`
-	TotalFilesProcessed uint    `json:"total_files_processed"`
-	TotalBytesProcessed uint64  `json:"total_bytes_processed"`
-	TotalDuration       float64 `json:"total_duration"` // in seconds
-	SnapshotID          string  `json:"snapshot_id"`
+	MessageType         string     `json:"message_type"` // "summary"
+	FilesNew            uint       `json:"files_new"`
+	FilesChanged        uint       `json:"files_changed"`
+	FilesUnmodified     uint       `json:"files_unmodified"`
+	DirsNew             uint       `json:"dirs_new"`
+	DirsChanged         uint       `json:"dirs_changed"`
+	DirsUnmodified      uint       `json:"dirs_unmodified"`
+	DataBlobs           int        `json:"data_blobs"`
+	TreeBlobs           int        `json:"tree_blobs"`
+	DataAdded           uint64     `json:"data_added"`
+	TotalFilesProcessed uint       `json:"total_files_processed"`
+	TotalBytesProcessed uint64     `json:"total_bytes_processed"`
+	TotalDuration       float64    `json:"total_duration"` // in seconds
+	SnapshotID          *restic.ID `json:"snapshot_id"`
+	SnapshotShortID     string     `json:"snapshot_short_id"`
 }
